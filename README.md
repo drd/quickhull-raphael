@@ -24,6 +24,14 @@ JavaScript, with RaphaelJS shiny frontend.
 
 ### Project Schedule
 
-- Week 1:
-- Week 2:
-- Week 3:
+- Week 8:
+	- Create website skeleton.
+	- Random point generation.
+	- Quickhull without animation.
+- Week 9:
+	- Testing
+	- Animate Quickhull.
+	- Start report.
+- Week 10: 
+	- Report
+	- Buffer time
