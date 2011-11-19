@@ -5,20 +5,17 @@ function convex_hull_bruteforce(points_list) {
 		return p1[0] == p2[0] && p1[1] == p2[1];
 	}
 
-	function cross_prod(v1, v2) {
-		return (v1[0]*v2[1]) - (v1[1]*v2[0]);
-	}
-
-	function points_left_of(p1, p2, cmp) {
-		var v1 = [p2[0] - p1[0], p2[1] - p1[1]]
-		var v2 = [p2[0] - cmp[0], p2[1] - cmp[1]]
-		return cross_prod(v1, v2) <= 0;
+	function point_left_of(vect, cmp) {
+		p1 = vect[0]
+		p2 = vect[1]
+		return ((p2[0] - p1[0])*(cmp[1] - p1[1]) - (p2[1] - p1[1])*(cmp[0] - p1[0])) > 0;
 	}
 
 	function vector_on_hull(test_list, p1, p2) {
-		return _.each(test_list, function(test_point) {
+		return _.all(test_list, function(test_point) {
 			if(points_are_equal(test_point, p1) || points_are_equal(test_point, p2)) return true;
-			return points_left_of(p1, p2, test_point);
+			var ret = point_left_of([p1, p2], test_point);
+			return ret;
 		});
 	}
 
@@ -38,9 +35,10 @@ function convex_hull_bruteforce(points_list) {
 		});
 	});
 
-	console.log("Hull consists of: " + hull_list);
+	console.log("Hull consists of:" );
+	_.each(hull_list, function(vector) { console.log("\t" + vector[0] + " -> " + vector[1]); });
 	return hull_list;
 }
 
-convex_hull_bruteforce([[0, 0], [1, 2], [5, 6], [1, 1]]);
+convex_hull_bruteforce([[0, 0], [1, 2], [5, 6], [1, 1], [2, 2]]);
 
