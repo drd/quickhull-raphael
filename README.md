@@ -19,18 +19,18 @@ JavaScript, with RaphaelJS shiny frontend.
 
 - Algorithm Explanation
 	- pseudocode
-	- time complexity / experimental results
-		- theory
-			- talk about algorithm, why n log(n)
-		- experimental
-   			- into on implementation
-   			- quickhull v. bruteforce
-    				- random data
-    				- circle
-    				- line (horiz/vert)
- 	- pivot selection
- 	- comparison w/ other algorithms
- 	- citations
+- time complexity / experimental results
+	- theory
+		- talk about algorithm, why n log(n)
+	- experimental
+		- into on implementation
+		- quickhull v. bruteforce
+			- random data
+			- circle
+			- line (horiz/vert)
+- pivot selection
+- comparison w/ other algorithms
+- citations
 
 ### Implementation Features
 
@@ -46,9 +46,9 @@ JavaScript, with RaphaelJS shiny frontend.
 	- Random point generation.
 	- Quickhull without animation.
 - Week 9:
+	- Start report.
 	- Testing
 	- Animate Quickhull.
-	- Start report.
 - Week 10: 
 	- Report
 	- Buffer time
