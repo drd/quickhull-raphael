@@ -15,7 +15,24 @@ Quickhull algorithm
 
 JavaScript, with RaphaelJS shiny frontend.
 
-### Features
+### Report Outline
+
+- Algorithm Explanation
+	- pseudocode
+	- time complexity / experimental results
+		- theory
+			- talk about algorithm, why n log(n)
+		- experimental
+   			- into on implementation
+   			- quickhull v. bruteforce
+    				- random data
+    				- circle
+    				- line (horiz/vert)
+ 	- pivot selection
+ 	- comparison w/ other algorithms
+ 	- citations
+
+### Implementation Features
 
 - generate random 2d point map
 - set region size & point count
