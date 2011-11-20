@@ -1,9 +1,20 @@
-Vector2d = function(arguments) {
-    return this.concat(arguments);
+var geometry = {
+	points_are_equal: function(p1, p2) {
+		return p1[0] == p2[0] && p1[1] == p2[1];
+	},
+
+	point_left_of: function(vect, cmp) {
+		p1 = vect[0]
+		p2 = vect[1]
+		return ((p2[0] - p1[0])*(cmp[1] - p1[1]) - (p2[1] - p1[1])*(cmp[0] - p1[0])) > 0;
+	},
+
+	vector_on_hull: function(test_list, p1, p2) {
+		return _.all(test_list, function(test_point) {
+			if(geometry.points_are_equal(test_point, p1) || geometry.points_are_equal(test_point, p2)) return true;
+			var ret = geometry.point_left_of([p1, p2], test_point);
+			return ret;
+		});
+	}
 }
 
-Vector2d.prototype = new Array;
-
-Vector2d.prototype.crossProduct = function(other) {
-    return this[0] * other[1] - this[1] * other[0];
-}
