@@ -4,11 +4,13 @@
 Example = {
     defaults: {
         // these are parameters for the underlying quickhull algorithm
-        numPoints: 100,
+        numPoints: 30,
         xCenter: 0,
         yCenter: 0,
         xRange: 50,
         yRange: 50,
+        xExtend: 10,
+        yExtend: 10,
 
         // these configure the UI display
         pointRadius: 3,
@@ -54,10 +56,10 @@ Example = {
     // map graph coordinates into pixel coordinates
     mapCoord: function(coord) {
         var self = this;
-        var xMin = (self.options.xCenter - self.options.xRange)/2;
-        var yMin = (self.options.yCenter - self.options.yRange)/2;
-        var tx = self.width / self.options.xRange;
-        var ty = self.height / self.options.yRange;
+        var xMin = (self.options.xCenter - self.options.xRange - self.options.xExtend)/2;
+        var yMin = (self.options.yCenter - self.options.yRange - self.options.yExtend)/2;
+        var tx = self.width / (self.options.xRange + self.options.xExtend);
+        var ty = self.height / (self.options.yRange + self.options.yExtend);
 
         return [tx * (coord[0] - xMin), ty * (coord[1] - yMin)];
     },
@@ -123,8 +125,8 @@ Example = {
                     lineTo(Example.mapCoord(s[1]));
             }, '');
         this.canvas.path(path).attr({
-            'stroke-width': 2,
-            'stroke-color': '#aaa'
+            'stroke-width': 1,
+            'stroke': '#666'
         });
     }
 }
