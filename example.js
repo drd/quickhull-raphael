@@ -13,17 +13,21 @@ Example = {
         yExtend: 10,
 
         // these configure the UI display
+        containerSelector: '#graphPaper',
+
+        backgroundColor: '#e7e7f3',
+        numLines: 32,
+        smallLineColor: '#eee',
+        bigLineColor: '#fff',
+
         pointRadius: 3,
         pointColor: '#999',
-        backgroundColor: '#e7e7f3',
-        containerSelector: '#graphPaper'
+
+        hullWidth: 1,
+        hullColor: '#666'
     },
 
     points: [],
-
-    rand: function() {
-        return Math.random() * 2.0 - 1.0;
-    },
 
     init: function(options) {
         if (options) {
@@ -35,6 +39,19 @@ Example = {
         this.initializeRaphael();
         this.generatePoints();
         this.drawGraph();
+    },
+
+    generatePoints: function() {
+        function rand() {
+            return Math.random() * 2.0 - 1.0;
+        }
+
+        for (i = 0; i < this.options.numPoints; i++) {
+            this.points.push([
+                this.options.xRange / 2.0 * rand() + this.options.xCenter,
+                this.options.yRange / 2.0 * rand() + this.options.yCenter
+            ]);
+        }
     },
 
     initializeRaphael: function(undefined) {
@@ -56,8 +73,8 @@ Example = {
     // map graph coordinates into pixel coordinates
     mapCoord: function(coord) {
         var self = this;
-        var xMin = (self.options.xCenter - self.options.xRange - self.options.xExtend)/2;
-        var yMin = (self.options.yCenter - self.options.yRange - self.options.yExtend)/2;
+        var xMin = (self.options.xCenter - self.options.xRange - self.options.xExtend) / 2;
+        var yMin = (self.options.yCenter - self.options.yRange - self.options.yExtend) / 2;
         var tx = self.width / (self.options.xRange + self.options.xExtend);
         var ty = self.height / (self.options.yRange + self.options.yExtend);
 
@@ -65,16 +82,15 @@ Example = {
     },
 
     drawGraph: function() {
-        var numLines = 24;
         var self = this;
-        var gx = self.width / numLines;
-        var gy = self.height / numLines;
+        var gx = self.width / self.options.numLines;
+        var gy = self.height / self.options.numLines;
 
         this.graph = {
             background: self.canvas.rect(0, 0, this.width + 1, this.height + 1),
-            lines: _(_.range(0, numLines)).reduce(
+            lines: _(_.range(0, self.options.numLines)).reduce(
                 function(lines, l) {
-                    var color = ((l & 3) == 0) ? '#fff' : '#eee';
+                    var color = ((l & 3) == 0) ? self.options.bigLineColor : self.options.smallLineColor;
                     var x = l * gx;
                     var y = l * gy;
                     lines.horizontal.push(
@@ -97,15 +113,6 @@ Example = {
         this.graph.background.attr('fill', this.options.backgroundColor);
     },
 
-    generatePoints: function() {
-        for (i = 0; i < this.options.numPoints; i++) {
-            this.points.push([
-                this.options.xRange / 2.0 * this.rand() + this.options.xCenter,
-                this.options.yRange / 2.0 * this.rand() + this.options.yCenter
-            ]);
-        }
-    },
-
     bruteForce: function() {
         function point(p) {
             return p[0] + "," + p[1];
@@ -125,8 +132,8 @@ Example = {
                     lineTo(Example.mapCoord(s[1]));
             }, '');
         this.canvas.path(path).attr({
-            'stroke-width': 1,
-            'stroke': '#666'
+            'stroke-width': this.options.hullWidth,
+            'stroke': this.options.hullColor
         });
     }
 }
