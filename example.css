@@ -1,0 +1,9 @@
+body {
+    background-color: #666;
+    font-face: Helvetica;
+}
+
+#graphPaper {
+    width: 800px;
+    height: 600px;
+}

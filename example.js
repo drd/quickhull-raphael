@@ -3,11 +3,20 @@
 // points are just objects with x & y properties
 Example = {
     defaults: {
+        // these are parameters for the underlying quickhull algorithm
         numPoints: 100,
         xCenter: 0,
         yCenter: 0,
         xRange: 50,
-        yRange: 50
+        yRange: 50,
+
+        // these configure the UI display
+        width: 600,
+        height: 400,
+        pointRadius: 3,
+        pointColor: '#999',
+        backgroundColor: '#e7e7f3',
+        containerSelector: '#graphPaper'
     },
 
     points: [],
@@ -27,8 +36,29 @@ Example = {
         this.generatePoints();
     },
 
-    initializeRaphael: function() {
-        // TODO:eo
+    initializeRaphael: function(undefined) {
+        if (Raphael == undefined) {
+            console.error('This example requires Raphael.js');
+            return;
+        }
+
+        this.container = $(this.options.containerSelector);
+        var width = this.container.width();
+        var height = this.container.height();
+
+        var x = this.container.offset().left;
+        var y = this.container.offset().top;
+
+        this.canvas = Raphael(this.container[0], width, height);
+        this.drawGraphLines();
+    },
+
+    mapCoord: function(coord) {
+        var local = Object.create(coord);
+        local.x = local.x;
+    },
+
+    drawGraphLines: function() {
     },
 
     generatePoints: function() {
@@ -40,5 +70,7 @@ Example = {
         }
     }
 }
-        
-Example.init();
+
+window.jQuery(document).ready(function($) {   
+    Example.init();
+});
