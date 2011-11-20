@@ -1,5 +1,5 @@
 Vector2d = function(arguments) {
-    this.push(arguments);
+    return this.concat(arguments);
 }
 
 Vector2d.prototype = new Array;
