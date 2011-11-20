@@ -11,9 +11,7 @@ function convex_hull_bruteforce(points_list) {
 			if(geometry.points_are_equal(p, q)) return;
 			if(geometry.vector_on_hull(points_list, p, q)) {
 				hull_list.push([p, q]);
-				console.log("( " + p + " -> " + q + " ) is on the hull");
-			} else
-				console.log("( " + p + " -> " + q + " ) is not on hull");
+			}
 		});
 	});
 
@@ -21,6 +19,3 @@ function convex_hull_bruteforce(points_list) {
 	_.each(hull_list, function(vector) { console.log("\t" + vector[0] + " -> " + vector[1]); });
 	return hull_list;
 }
-
-convex_hull_bruteforce([[0, 0], [1, 2], [5, 6], [1, 1], [2, 2]]);
-

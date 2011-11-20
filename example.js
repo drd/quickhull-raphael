@@ -59,10 +59,7 @@ Example = {
         var tx = self.width / self.options.xRange;
         var ty = self.height / self.options.yRange;
 
-        var local = Object.create(coord);
-        local.x = tx * (local.x - xMin);
-        local.y = ty * (local.y - yMin);
-        return local;
+        return [tx * (coord[0] - xMin), ty * (coord[1] - yMin)];
     },
 
     drawGraph: function() {
@@ -90,7 +87,7 @@ Example = {
             ),
             points: _(this.points).map(function(p) {
                 var q = self.mapCoord(p);
-                return self.canvas.circle(q.x, q.y, self.options.pointRadius).
+                return self.canvas.circle(q[0], q[1], self.options.pointRadius).
                     attr('fill', self.options.pointColor).
                     attr('stroke-width', 0);
             })
@@ -100,14 +97,39 @@ Example = {
 
     generatePoints: function() {
         for (i = 0; i < this.options.numPoints; i++) {
-            this.points.push({
-                x: this.options.xRange / 2.0 * this.rand() + this.options.xCenter,
-                y: this.options.yRange / 2.0 * this.rand() + this.options.yCenter
-            })
+            this.points.push([
+                this.options.xRange / 2.0 * this.rand() + this.options.xCenter,
+                this.options.yRange / 2.0 * this.rand() + this.options.yCenter
+            ]);
         }
+    },
+
+    bruteForce: function() {
+        function point(p) {
+            return p[0] + "," + p[1];
+        }
+        function moveTo(p) {
+            return "M" + point(p);
+        }
+        function lineTo(p) {
+            return "L" + point(p);
+        }
+
+        this.hull = convex_hull_bruteforce(Example.points);
+        var path = _(this.hull).reduce(
+            function(_path, s) {
+                return _path +
+                    moveTo(Example.mapCoord(s[0])) +
+                    lineTo(Example.mapCoord(s[1]));
+            }, '');
+        this.canvas.path(path).attr({
+            'stroke-width': 2,
+            'stroke-color': '#aaa'
+        });
     }
 }
 
 window.jQuery(document).ready(function($) {
     Example.init();
+    Example.bruteForce();
 });
