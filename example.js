@@ -4,26 +4,30 @@
 Example = {
     defaults: {
         // these are parameters for the underlying quickhull algorithm
-        numPoints: 100,
+        numPoints: 30,
         xCenter: 0,
         yCenter: 0,
         xRange: 50,
         yRange: 50,
+        xExtend: 10,
+        yExtend: 10,
 
         // these configure the UI display
-        width: 600,
-        height: 400,
+        containerSelector: '#graphPaper',
+
+        backgroundColor: '#e7e7f3',
+        numLines: 32,
+        smallLineColor: '#eee',
+        bigLineColor: '#fff',
+
         pointRadius: 3,
         pointColor: '#999',
-        backgroundColor: '#e7e7f3',
-        containerSelector: '#graphPaper'
+
+        hullWidth: 1,
+        hullColor: '#666'
     },
 
     points: [],
-
-    rand: function() {
-        return Math.random() * 2.0 - 1.0;
-    },
 
     init: function(options) {
         if (options) {
@@ -34,43 +38,107 @@ Example = {
 
         this.initializeRaphael();
         this.generatePoints();
+        this.drawGraph();
+    },
+
+    generatePoints: function() {
+        function rand() {
+            return Math.random() * 2.0 - 1.0;
+        }
+
+        for (i = 0; i < this.options.numPoints; i++) {
+            this.points.push([
+                this.options.xRange / 2.0 * rand() + this.options.xCenter,
+                this.options.yRange / 2.0 * rand() + this.options.yCenter
+            ]);
+        }
     },
 
     initializeRaphael: function(undefined) {
-        if (Raphael == undefined) {
+        if (Raphael === undefined) {
             console.error('This example requires Raphael.js');
             return;
         }
 
         this.container = $(this.options.containerSelector);
-        var width = this.container.width();
-        var height = this.container.height();
+        this.width = this.container.width();
+        this.height = this.container.height();
 
         var x = this.container.offset().left;
         var y = this.container.offset().top;
 
-        this.canvas = Raphael(this.container[0], width, height);
-        this.drawGraphLines();
+        this.canvas = Raphael(this.container[0], this.width, this.height);
     },
 
+    // map graph coordinates into pixel coordinates
     mapCoord: function(coord) {
-        var local = Object.create(coord);
-        local.x = local.x;
+        var self = this;
+        var xMin = (self.options.xCenter - self.options.xRange - self.options.xExtend) / 2;
+        var yMin = (self.options.yCenter - self.options.yRange - self.options.yExtend) / 2;
+        var tx = self.width / (self.options.xRange + self.options.xExtend);
+        var ty = self.height / (self.options.yRange + self.options.yExtend);
+
+        return [tx * (coord[0] - xMin), ty * (coord[1] - yMin)];
     },
 
-    drawGraphLines: function() {
-    },
+    drawGraph: function() {
+        var self = this;
+        var gx = self.width / self.options.numLines;
+        var gy = self.height / self.options.numLines;
 
-    generatePoints: function() {
-        for (i = 0; i < this.options.numPoints; i++) {
-            this.points.push({
-                x: this.options.xRange / 2.0 * this.rand() + this.options.xCenter,
-                y: this.options.yRange / 2.0 * this.rand() + this.options.yCenter
+        this.graph = {
+            background: self.canvas.rect(0, 0, this.width + 1, this.height + 1),
+            lines: _(_.range(0, self.options.numLines)).reduce(
+                function(lines, l) {
+                    var color = ((l & 3) == 0) ? self.options.bigLineColor : self.options.smallLineColor;
+                    var x = l * gx;
+                    var y = l * gy;
+                    lines.horizontal.push(
+                        self.canvas.rect(0, y, self.width, 0.25).
+                            attr('stroke', color));
+                    lines.vertical.push(
+                        self.canvas.rect(x, 0, 0.25, self.height).
+                            attr('stroke', color));
+                    return lines;
+                },
+                { horizontal: [], vertical: [] }
+            ),
+            points: _(this.points).map(function(p) {
+                var q = self.mapCoord(p);
+                return self.canvas.circle(q[0], q[1], self.options.pointRadius).
+                    attr('fill', self.options.pointColor).
+                    attr('stroke-width', 0);
             })
+        };
+        this.graph.background.attr('fill', this.options.backgroundColor);
+    },
+
+    bruteForce: function() {
+        function point(p) {
+            return p[0] + "," + p[1];
         }
+        function moveTo(p) {
+            return "M" + point(p);
+        }
+        function lineTo(p) {
+            return "L" + point(p);
+        }
+
+        this.hull = convex_hull_bruteforce(Example.points);
+        var path = _(this.hull).reduce(
+            function(_path, s) {
+                return _path +
+                    moveTo(Example.mapCoord(s[0])) +
+                    lineTo(Example.mapCoord(s[1]));
+            }, '');
+        this.canvas.path(path).attr({
+            'stroke-width': this.options.hullWidth,
+            'stroke': this.options.hullColor
+        });
     }
 }
 
-window.jQuery(document).ready(function($) {   
+window.jQuery(document).ready(function($) {
     Example.init();
+    Example.bruteForce();
 });
