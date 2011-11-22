@@ -19,6 +19,7 @@ function convex_hull_bruteforce(points_list) {
 
 	console.log("Hull consists of:" );
 	_.each(hull_list, function(vector) { console.log("\t" + vector[0] + " -> " + vector[1]); });
+
 	return hull_list;
 }
 
