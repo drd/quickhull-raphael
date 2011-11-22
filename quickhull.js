@@ -9,15 +9,42 @@ function quickhull(points_list, chord_finder) {
 		});
 	}
 
+	function triangle_part(points, p, q, ch_points) {
+		if(points.length == 0)
+			return;
+
+		var farthest = _.max(points, function(point) {
+			return geometry.dist_point_from_line(point, chord);
+		});
+		ch_points.push(furthest);
+
+		var s1_points = _.filter(points, function(point) {
+			return geometry.point_left_of([p, farthest], point);
+		});
+		var s2_points = _.filter(points, function(point) {
+			return geometry.point_left_of([farthest, q], point);
+		});
+
+		triangle_part(s1_points, p, farthest, ch_points);
+		triangle_part(s2_points, farthest, q, ch_points);
+	}
+
 	if(!chord_finder)
 		chord_finder = left_right_chord;
 	var chord = chord_finder(points_list);
 
-	var furthest = points_list[0];
-	_.max(points_list, function(point) {
-		return geometry.dist_point_from_line(point, chord);
+	var hull_points = new Array();
+	hull_points.concat(chord);
+
+	var upper = _.filter(points_list, function(point) {
+		return geometry.point_left_of(chord, point);
+	});
+	var lower = _.filter(points_list, function(point) {
+		return geometry.point_right_of(chord, point);
 	});
 
-	var recur_points = new Array();
+	triangle_part(upper, chord[0], chord[1], hull_points);
+	triangle_part(lower, chord[1], chord[0], hull_points);
+	return hull_points;
 }
 
