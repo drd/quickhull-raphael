@@ -1,5 +1,5 @@
 /* Accepts an array of points and returns an aray of edges */
-function quickhull(points_list, chord_finder) {
+function quickhull(points_list, chord_finder, ex) {
 	function left_right_chord(points_list) {
 		var min = points_list[0];
 		var max = points_list[1];
@@ -39,6 +39,8 @@ function quickhull(points_list, chord_finder) {
 	if(!chord_finder)
 		chord_finder = left_right_chord;
 	var chord = chord_finder(points_list);
+    ex.pointMap[chord[0]].glow();
+    ex.pointMap[chord[1]].glow();
 
 	var hull_points = [].concat(chord);
 

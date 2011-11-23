@@ -4,7 +4,7 @@
 Example = {
     defaults: {
         // these are parameters for the underlying quickhull algorithm
-        numPoints: 30,
+        numPoints: 6,
         xCenter: 0,
         yCenter: 0,
         xRange: 50,
@@ -46,11 +46,14 @@ Example = {
             return Math.random() * 2.0 - 1.0;
         }
 
+        this.pointMap = {};
+
         for (i = 0; i < this.options.numPoints; i++) {
-            this.points.push([
+            var p = [
                 this.options.xRange / 2.0 * rand() + this.options.xCenter,
                 this.options.yRange / 2.0 * rand() + this.options.yCenter
-            ]);
+            ];
+            this.points.push(p);
         }
     },
 
@@ -105,9 +108,11 @@ Example = {
             ),
             points: _(this.points).map(function(p) {
                 var q = self.mapCoord(p);
-                return self.canvas.circle(q[0], q[1], self.options.pointRadius).
+                point = self.canvas.circle(q[0], q[1], self.options.pointRadius).
                     attr('fill', self.options.pointColor).
                     attr('stroke-width', 0);
+                self.pointMap[ [p[0], p[1]] ] = point;
+                return point;
             })
         };
         this.graph.background.attr('fill', this.options.backgroundColor);
@@ -135,10 +140,14 @@ Example = {
             'stroke-width': this.options.hullWidth,
             'stroke': this.options.hullColor
         });
+    },
+
+    quickhull: function() {
+        window.quickhull(this.points, null, this);
     }
 }
 
 window.jQuery(document).ready(function($) {
     Example.init();
-    Example.bruteForce();
+    Example.quickhull();
 });
