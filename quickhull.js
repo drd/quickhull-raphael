@@ -66,7 +66,8 @@ function quickhull(points_list, chord_finder, ex) {
 		chord_finder = left_right_chord;
 	var chord = chord_finder(points_list);
 
-	var hull_points = [].concat(chord);
+	var hull_points = [];
+	hull_points.push(chord[0]);
 
 	var lower = _.filter(points_list, function(point) {
 		return geometry.point_left_of(chord, point);
@@ -85,6 +86,8 @@ function quickhull(points_list, chord_finder, ex) {
 	console.log('');
 	console.log('Handling upper');
 	triangle_part(upper, chord[0], chord[1], hull_points);
+
+	hull_points.push(chord[1]);
 
 	console.log('');
 	console.log('Handling lower');
