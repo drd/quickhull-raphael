@@ -7,11 +7,13 @@ function quickhull(points_list, chord_finder) {
 			if(min[0] <= elem[0]) max = elem;
 			if(min[0] >= elem[0]) min = elem;
 		});
+		return [min, max];
 	}
 
-	function triangle_part(points, p, q, ch_points) {
+	function triangle_part(points, p, q) {
 		if(points.length == 0)
 			return;
+		var ch_points = new Array();
 
 		var farthest = _.max(points, function(point) {
 			return geometry.dist_point_from_line(point, chord);
@@ -19,14 +21,16 @@ function quickhull(points_list, chord_finder) {
 		ch_points.push(furthest);
 
 		var s1_points = _.filter(points, function(point) {
-			return geometry.point_left_of([p, farthest], point);
-		});
+			return geometry.point_left_of([this['p'], this['farthest']], point);
+		}, {'p': p, 'farthest': farthest});
 		var s2_points = _.filter(points, function(point) {
-			return geometry.point_left_of([farthest, q], point);
-		});
+			return geometry.point_left_of([this['farthest'], this['q']], point);
+		}, {'q': q, 'farthest': farthest});
 
-		triangle_part(s1_points, p, farthest, ch_points);
-		triangle_part(s2_points, farthest, q, ch_points);
+		ch_points.concat(triangle_part(s1_points, p, farthest, ch_points));
+		ch_points.concat(triangle_part(s2_points, farthest, q, ch_points));
+
+		return ch_points;
 	}
 
 	if(!chord_finder)
@@ -37,14 +41,14 @@ function quickhull(points_list, chord_finder) {
 	hull_points.concat(chord);
 
 	var upper = _.filter(points_list, function(point) {
-		return geometry.point_left_of(chord, point);
-	});
+		return geometry.point_left_of(this, point);
+	}, chord);
 	var lower = _.filter(points_list, function(point) {
-		return geometry.point_right_of(chord, point);
-	});
+		return geometry.point_right_of(this, point);
+	}, chord);
 
-	triangle_part(upper, chord[0], chord[1], hull_points);
-	triangle_part(lower, chord[1], chord[0], hull_points);
+	hull_points.concat(triangle_part(upper, chord[0], chord[1], hull_points));
+	hull_points.concat(triangle_part(lower, chord[1], chord[0], hull_points));
 	return hull_points;
 }
 
