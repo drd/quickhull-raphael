@@ -1,7 +1,7 @@
 /* Accepts an array of points and returns an aray of edges */
 function quickhull(points_list, chord_finder, ex) {
     function highlight(ps, attrs, undefined) {
-        if (ps[0].length === undefined) {
+        if (ps[0] && (ps[0].length === undefined)) {
             ps = [ps];
         }
         
@@ -54,8 +54,8 @@ function quickhull(points_list, chord_finder, ex) {
 			return geometry.point_left_of_or_on([q, farthest], point);
 		}, {'q': q, 'farthest': farthest});
 
-            // highlight(s1_points, {stroke: '#c00'});
-            // highlight(s2_points, {stroke: '#0c0'});
+            highlight(s1_points, {stroke: '#c00'});
+            highlight(s2_points, {stroke: '#0c0'});
 		triangle_part(s1_points, p, farthest, ch_points);
 		triangle_part(s2_points, farthest, q, ch_points);
 
