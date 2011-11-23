@@ -21,4 +21,4 @@ function convex_hull_bruteforce(points_list) {
 	return hull_list;
 }
 
-console.log(quickhull([[0, 0], [1, 1], [-1, -1], [0, 1], [-1, 1]]));
+console.log(quickhull([[-2, 2], [0, 0], [1, 1], [-1, -1], [0, 1], [-1, 1]]));
