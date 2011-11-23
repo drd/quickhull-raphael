@@ -4,7 +4,7 @@
 Example = {
     defaults: {
         // these are parameters for the underlying quickhull algorithm
-        numPoints: 6,
+        numPoints: 60,
         xCenter: 0,
         yCenter: 0,
         xRange: 50,

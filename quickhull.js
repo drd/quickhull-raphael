@@ -1,5 +1,20 @@
 /* Accepts an array of points and returns an aray of edges */
 function quickhull(points_list, chord_finder, ex) {
+    function highlight(ps, attrs, undefined) {
+        if (ps[0].length === undefined) {
+            ps = [ps];
+        }
+        
+        _(ps).each(function(_p) {
+            var p = ex.pointMap[_p];
+            var glow = p.glow();
+            glow.attr(_.extend({opacity: 0}, attrs));
+            glow.animate({opacity: .125}, 300, '>', function() {
+                glow.animate({opacity: 0}, 300, '<');
+            });
+        });
+    }
+
 	function left_right_chord(points_list) {
 		var min = points_list[0];
 		var max = points_list[0];
@@ -29,6 +44,9 @@ function quickhull(points_list, chord_finder, ex) {
 			return geometry.point_left_of([farthest, q], point);
 		}, {'q': q, 'farthest': farthest});
 
+            // highlight(s1_points, {stroke: '#c00'});
+            // highlight(s2_points, {stroke: '#0c0'});
+
 		ch_points.concat(triangle_part(s1_points, p, farthest));
 		ch_points.concat(triangle_part(s2_points, farthest, q));
 		console.log(ch_points);
@@ -39,8 +57,6 @@ function quickhull(points_list, chord_finder, ex) {
 	if(!chord_finder)
 		chord_finder = left_right_chord;
 	var chord = chord_finder(points_list);
-    ex.pointMap[chord[0]].glow();
-    ex.pointMap[chord[1]].glow();
 
 	var hull_points = [].concat(chord);
 
@@ -50,6 +66,9 @@ function quickhull(points_list, chord_finder, ex) {
 	var lower = _.filter(points_list, function(point) {
 		return geometry.point_right_of(chord, point);
 	}, {'chord': chord});
+
+    highlight(lower, {stroke: '#f00'});
+    highlight(upper, {stroke: '#0f0'});
 	console.log('Dataset: ', points_list);
 	console.log('Using chord: ', chord);
 	console.log('upper: ', upper);
