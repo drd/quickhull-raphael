@@ -2,9 +2,9 @@
 function quickhull(points_list, chord_finder) {
 	function left_right_chord(points_list) {
 		var min = points_list[0];
-		var max = points_list[1];
+		var max = points_list[0];
 		_.each(points_list, function(elem) {
-			if(min[0] <= elem[0]) max = elem;
+			if(max[0] <= elem[0]) max = elem;
 			if(min[0] >= elem[0]) min = elem;
 		});
 		return [min, max];
@@ -48,6 +48,10 @@ function quickhull(points_list, chord_finder) {
 	var lower = _.filter(points_list, function(point) {
 		return geometry.point_right_of(chord, point);
 	}, {'chord': chord});
+	console.log('Dataset: ', points_list);
+	console.log('Using chord: ', chord);
+	console.log('upper: ', upper);
+	console.log('lower: ', lower);
 
 	hull_points.concat(triangle_part(upper, chord[0], chord[1]));
 	hull_points.concat(triangle_part(lower, chord[1], chord[0]));
