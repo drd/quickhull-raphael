@@ -13,7 +13,7 @@ function quickhull(points_list, chord_finder) {
 	function triangle_part(points, p, q) {
 		if(points.length == 0)
 			return;
-		var ch_points = new Array();
+		var ch_points = []
 
 		var farthest = _.max(points, function(point) {
 			return geometry.dist_point_from_line(point, this[0], this[1]);
@@ -21,14 +21,15 @@ function quickhull(points_list, chord_finder) {
 		ch_points.push(farthest);
 
 		var s1_points = _.filter(points, function(point) {
-			return geometry.point_left_of([this['p'], this['farthest']], point);
+			return geometry.point_left_of([p, farthest], point);
 		}, {'p': p, 'farthest': farthest});
 		var s2_points = _.filter(points, function(point) {
-			return geometry.point_left_of([this['farthest'], this['q']], point);
+			return geometry.point_left_of([farthest, q], point);
 		}, {'q': q, 'farthest': farthest});
 
 		ch_points.concat(triangle_part(s1_points, p, farthest));
 		ch_points.concat(triangle_part(s2_points, farthest, q));
+		console.log(ch_points);
 
 		return ch_points;
 	}
@@ -37,8 +38,7 @@ function quickhull(points_list, chord_finder) {
 		chord_finder = left_right_chord;
 	var chord = chord_finder(points_list);
 
-	var hull_points = new Array();
-	hull_points.concat(chord);
+	var hull_points = [].concat(chord);
 
 	var upper = _.filter(points_list, function(point) {
 		return geometry.point_left_of(this, point);
