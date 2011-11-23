@@ -6,13 +6,19 @@ var geometry = {
 	point_left_of: function(vect, cmp) {
 		p1 = vect[0]
 		p2 = vect[1]
-		return ((p2[0] - p1[0])*(cmp[1] - p1[1]) - (p2[1] - p1[1])*(cmp[0] - p1[0])) > 0;
+		return ((p2[0] - p1[0])*(cmp[1] - p1[1]) - (p2[1] - p1[1])*(cmp[0] - p1[0])) < 0;
+	},
+
+	point_left_of_or_on: function(vect, cmp) {
+		p1 = vect[0]
+		p2 = vect[1]
+		return ((p2[0] - p1[0])*(cmp[1] - p1[1]) - (p2[1] - p1[1])*(cmp[0] - p1[0])) <= 0;
 	},
 
 	point_right_of: function(vect, cmp) {
 		p1 = vect[0]
 		p2 = vect[1]
-		return ((p2[0] - p1[0])*(cmp[1] - p1[1]) - (p2[1] - p1[1])*(cmp[0] - p1[0])) < 0;
+		return ((p2[0] - p1[0])*(cmp[1] - p1[1]) - (p2[1] - p1[1])*(cmp[0] - p1[0])) > 0;
 	},
 
 	vector_on_hull: function(test_list, p1, p2) {
