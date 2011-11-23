@@ -4,7 +4,7 @@
 Example = {
     defaults: {
         // these are parameters for the underlying quickhull algorithm
-        numPoints: 60,
+        numPoints: 200,
         xCenter: 0,
         yCenter: 0,
         xRange: 50,
@@ -118,7 +118,7 @@ Example = {
         this.graph.background.attr('fill', this.options.backgroundColor);
     },
 
-    bruteForce: function() {
+    outlineHull: function() {
         function point(p) {
             return p[0] + "," + p[1];
         }
@@ -129,13 +129,13 @@ Example = {
             return "L" + point(p);
         }
 
-        this.hull = convex_hull_bruteforce(Example.points);
         var path = _(this.hull).reduce(
-            function(_path, s) {
+            function(_path, p) {
                 return _path +
-                    moveTo(Example.mapCoord(s[0])) +
-                    lineTo(Example.mapCoord(s[1]));
-            }, '');
+                    lineTo(Example.mapCoord(p));
+            }, moveTo(Example.mapCoord(this.hull[0]))) + 
+            lineTo(Example.mapCoord(this.hull[0]));
+        console.log(path);
         this.canvas.path(path).attr({
             'stroke-width': this.options.hullWidth,
             'stroke': this.options.hullColor
@@ -143,7 +143,9 @@ Example = {
     },
 
     quickhull: function() {
-        window.quickhull(this.points, null, this);
+        this.hull = window.quickhull(this.points, null, this);
+        console.log(this.hull);
+        this.outlineHull();
     }
 }
 
