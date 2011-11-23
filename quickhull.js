@@ -42,17 +42,16 @@ function quickhull(points_list, chord_finder, ex) {
 			ch_points.push(farthest);
 		console.log('hull list: ', ch_points)
 
-		var s1_points = _.filter(points, function(point) {
-			if(geometry.points_are_equal(point, p) || geometry.points_are_equal(point, farthest))
-				return false;
-			return geometry.point_left_of_or_on([farthest, p], point);
-		}, {'p': p, 'farthest': farthest});
+		function outer_points(points, p, q) {
+			return _.filter(points, function(point) {
+				if(geometry.points_are_equal(point, p) || geometry.points_are_equal(point, q))
+					return false;
+				return geometry.point_left_of_or_on([p, q], point);
+			}, {'p': p, 'q': q});
+		}
 
-		var s2_points = _.filter(points, function(point) {
-			if(geometry.points_are_equal(point, q) || geometry.points_are_equal(point, farthest))
-				return false;
-			return geometry.point_left_of_or_on([q, farthest], point);
-		}, {'q': q, 'farthest': farthest});
+		var s1_points = outer_points(points, farthest, p);
+		var s2_points = outer_points(points, q, farthest);
 
             highlight(s1_points, {stroke: '#c00'});
             highlight(s2_points, {stroke: '#0c0'});
