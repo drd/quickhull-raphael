@@ -38,9 +38,8 @@ function quickhull(points_list, chord_finder, ex) {
 		console.log('q: ', q);
 		console.log('farthest: ', farthest);
 		
-		if(!geometry.points_are_equal(p, farthest) && !geometry.points_are_equal(q, farthest))
-			ch_points.push(farthest);
-		console.log('hull list: ', ch_points)
+		if(geometry.points_are_equal(p, farthest) || geometry.points_are_equal(q, farthest))
+			return;
 
 		function outer_points(points, p, q) {
 			return _.filter(points, function(point) {
@@ -51,7 +50,9 @@ function quickhull(points_list, chord_finder, ex) {
 		}
 
 		var s1_points = outer_points(points, farthest, p);
+		console.log("s1_points: ", s1_points);
 		var s2_points = outer_points(points, q, farthest);
+		console.log("s2_points: ", s2_points);
 
             highlight(s1_points, {stroke: '#c00'});
             highlight(s2_points, {stroke: '#0c0'});
@@ -59,6 +60,7 @@ function quickhull(points_list, chord_finder, ex) {
 //            setTimeout(function() {
 		triangle_part(s1_points, p, farthest, ch_points);
             // }, 500);
+		ch_points.push(farthest);
             // setTimeout(function() {
 		triangle_part(s2_points, farthest, q, ch_points);
             // }, 1000);
