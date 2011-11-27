@@ -36,12 +36,11 @@ var geometry = {
 	},
 
 	dist_point_from_line: function(point, p1, p2) {
-		var t = [p2[0] - p1[0], p2[1] - p1[1]];
-		var dd = Math.sqrt((t[0]*t[0])+(t[1]*t[1]));
-		t = [t[0]/dd, t[1]/dd];
-		n = [-t[1], t[0]];
-		var ac = [point[0]-p1[0], point[1], p1[1]];
-		return Math.abs((ac[0]*n[0])+(ac[1]*n[1]));
+		var a = point[0] - p1[0];
+		var b = point[1] - p1[1];
+		var c = p2[0] - p1[0];
+		var d = p2[1] - p1[1];
+		return Math.abs(a * d - c * b) / Math.sqrt(c * c + d * d);
 	}
 }
 

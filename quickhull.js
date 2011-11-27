@@ -56,6 +56,7 @@ function quickhull(points_list, chord_finder, ex) {
 				return false;
 			return geometry.point_left_of_or_on([farthest, p], point) && geometry.point_left_of_or_on([q, farthest], point);
 			}, {'p': p, 'q': q, 'farthest': farthest});
+
 		console.log('p: ', p);
 		console.log('q: ', q);
 		console.log('farthest: ', farthest);
