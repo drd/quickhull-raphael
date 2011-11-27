@@ -15,6 +15,12 @@ var geometry = {
 		return ((p2[0] - p1[0])*(cmp[1] - p1[1]) - (p2[1] - p1[1])*(cmp[0] - p1[0])) <= 0;
 	},
 
+	point_right_of_or_on: function(vect, cmp) {
+		p1 = vect[0]
+		p2 = vect[1]
+		return ((p2[0] - p1[0])*(cmp[1] - p1[1]) - (p2[1] - p1[1])*(cmp[0] - p1[0])) >= 0;
+	},
+
 	point_right_of: function(vect, cmp) {
 		p1 = vect[0]
 		p2 = vect[1]

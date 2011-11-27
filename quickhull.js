@@ -34,25 +34,36 @@ function quickhull(points_list, chord_finder, ex) {
 		var farthest = _.max(points, function(point) {
 			return geometry.dist_point_from_line(point, p, q);
 		}, {'p': p, 'q': q});
-		console.log('p: ', p);
-		console.log('q: ', q);
-		console.log('farthest: ', farthest);
+		if(geometry.dist_point_from_line(farthest, p, q) <= 0)
+			alert('Invalid point');
+		//console.log('p: ', p);
+		//console.log('q: ', q);
+		//console.log('farthest: ', farthest);
 		
 		if(geometry.points_are_equal(p, farthest) || geometry.points_are_equal(q, farthest))
 			return;
 
-		function outer_points(points, p, q) {
+		function outer_points(points, point1, point2) {
 			return _.filter(points, function(point) {
-				if(geometry.points_are_equal(point, p) || geometry.points_are_equal(point, q))
+				if(geometry.points_are_equal(point, point1) || geometry.points_are_equal(point, point2))
 					return false;
-				return geometry.point_left_of_or_on([p, q], point);
-			}, {'p': p, 'q': q});
+				return geometry.point_left_of_or_on([point1, point2], point);
+			}, {'point1': point1, 'point2': point2});
 		}
 
+		var bad_points = _.filter(points, function(point) {
+			return geometry.point_left_of_or_on([farthest, p], point) && geometry.point_left_of_or_on([q, farthest], point);
+			}, {'p': p, 'q': q, 'farthest': farthest});
+		console.log('p: ', p);
+		console.log('q: ', q);
+		console.log('farthest: ', farthest);
+		console.log('Bad points: ', bad_points);
+		console.log();
+
 		var s1_points = outer_points(points, farthest, p);
-		console.log("s1_points: ", s1_points);
+		//console.log("s1_points: ", s1_points);
 		var s2_points = outer_points(points, q, farthest);
-		console.log("s2_points: ", s2_points);
+		//console.log("s2_points: ", s2_points);
 
             highlight(s1_points, {stroke: '#c00'});
             highlight(s2_points, {stroke: '#0c0'});
@@ -60,7 +71,17 @@ function quickhull(points_list, chord_finder, ex) {
 //            setTimeout(function() {
 		triangle_part(s1_points, p, farthest, ch_points);
             // }, 500);
-		ch_points.push(farthest);
+/*
+		var app = true;
+		_.each(ch_points, function(point) {
+			if(geometry.points_are_equal(point, farthest)) {
+				console.trace();
+				alert('error' + p + ', ' + q + ', ' + ', ' + farthest);
+				app = false;
+			}
+		});
+		if(app)*/ ch_points.push(farthest);
+			
             // setTimeout(function() {
 		triangle_part(s2_points, farthest, q, ch_points);
             // }, 1000);
