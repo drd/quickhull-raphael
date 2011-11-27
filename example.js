@@ -142,10 +142,41 @@ Example = {
         });
     },
 
+    animOutlineHull: function() {
+        function point(p) {
+            var q = Example.mapCoord(p);
+            return q[0] + "," + q[1];
+        }
+        function moveTo(p) {
+            return "M" + point(p);
+        }
+        function lineTo(p) {
+            return "L" + point(p);
+        }
+        function drawSegment(s) {
+            if (s > Example.hull.length)
+                return;
+            if (s == Example.hull.length)
+                var path = moveTo(Example.hull[s - 1]) + lineTo(Example.hull[0]);
+            else
+                var path = moveTo(Example.hull[s]) + lineTo(Example.hull[s + 1]);
+
+            Example.canvas.path(path).attr({
+                'stroke-width': Example.options.hullWidth,
+                'stroke': Example.options.hullColor
+            });
+            setTimeout(function() {
+                drawSegment(s+1);
+            }, 100);
+        }
+
+        drawSegment(0);
+    },
+
     quickhull: function() {
         this.hull = window.quickhull(this.points, null, this);
         console.log(this.hull);
-        this.outlineHull();
+        this.animOutlineHull();
     }
 }
 
