@@ -154,10 +154,10 @@ Example = {
             return "L" + point(p);
         }
         function drawSegment(s) {
-            if (s > Example.hull.length)
+            if (s >= Example.hull.length)
                 return;
-            if (s == Example.hull.length)
-                var path = moveTo(Example.hull[s - 1]) + lineTo(Example.hull[0]);
+            if (s == Example.hull.length - 1)
+                var path = moveTo(Example.hull[s]) + lineTo(Example.hull[0]);
             else
                 var path = moveTo(Example.hull[s]) + lineTo(Example.hull[s + 1]);
 
