@@ -52,6 +52,8 @@ function quickhull(points_list, chord_finder, ex) {
 		}
 
 		var bad_points = _.filter(points, function(point) {
+			if(geometry.points_are_equal(point, p) || geometry.points_are_equal(point, q) || geometry.points_are_equal(point, farthest))
+				return false;
 			return geometry.point_left_of_or_on([farthest, p], point) && geometry.point_left_of_or_on([q, farthest], point);
 			}, {'p': p, 'q': q, 'farthest': farthest});
 		console.log('p: ', p);
