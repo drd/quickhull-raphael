@@ -22,9 +22,10 @@ The quickhull algorithm, given its name due to its similarity to the quicksort a
 \begin{verbatim}
 If P is the empty set return the empty set
 Let C be the farthest point from the line containing A and B
-Let L be a subset of P where each element is left of the line A -> C
-Let R be a subset of P where each element is left of the line C -> B
-Let CH <- TrianglePartition(L, A, C) + {CH} + TrianglePartition(R, C, B)
+Let L be a subset of P where each element is left of the line A..C
+Let R be a subset of P where each element is left of the line C..B
+Let CH <- TrianglePartition(L, A, C) + {CH}
+   + TrianglePartition(R, C, B)
 Return CH
 \end{verbatim}
 \textbf{Quickhull(P):}
