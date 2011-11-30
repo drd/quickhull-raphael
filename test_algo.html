@@ -26,7 +26,9 @@
 
 		function singleTest() {
 			var points = geometry.gen_random_points(100);
-			return quickhull(points);
+			var qh = quickhull(points);
+			var bf = convex_hull_bruteforce(points);
+			return geometry.points_lists_are_equal(qh, bf);
 		}
 
 		var i;
