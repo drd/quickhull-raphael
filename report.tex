@@ -10,7 +10,11 @@
 
 \section{Introduction}
 
+In mathematics the convex hull of a set of points X is the minimum convex set containing X. There are many practical applications of the problem of determining convex hulls which range from Image processing to static code analysis.
+
 \section{Algorithm Explanation}
+
+The quickhull algorithm, given its name due to its similarity to the quicksort algorithm, is a fast method for determining the convex hull of a set of points.
 
 \subsection{Pseudocode}
 
@@ -35,7 +39,7 @@ Return CH
 \end{verbatim}
 
 \subsection{Pivot Chord Selection}
-The pivot chord selection in quickhull plays a major role in the efficiency of the algorithm, much like in its quicksort counterpart. For this project the chord was selected by finding the maximum and minimum values along the X axis.
+The pivot chord selection in quickhull plays a major role in the efficiency of the algorithm, much like in its quicksort counterpart. For this project the chord was selected by finding the maximum and minimum values along the X axis. This could be easily modified to select a chord along the Y. More advanced chord selection techniques are beyond the scope of this project.
 
 \section{Implementation}
 
