@@ -18,7 +18,7 @@ If P is the empty set return the empty set
 Let C be the farthest point from the line containing A and B
 Let L be a subset of P where each element is left of the line A -> C
 Let R be a subset of P where each element is left of the line C -> B
-Let CH <- {C} + TrianglePartition(L, A, C) + TrianglePartition(R, C, B)
+Let CH <- TrianglePartition(L, A, C) + {CH} + TrianglePartition(R, C, B)
 Return CH
 \end{verbatim}
 \textbf{Quickhull(P):}
@@ -27,7 +27,8 @@ Let C be a chord from point C.a to C.b where
    both C.a and C.b are points on the convex hull of P
 Let U be a subset of P where each element in U is above C
 Let L be a subset of P where each element in L is below C
-Let CH <- TrianglePartition(P, C.a, C.b) + TrianglePartition(P, C.b, C.a)
+Let CH <- {C.a} + TrianglePartition(P, C.a, C.b) + 
+   {C.b} + TrianglePartition(P, C.b, C.a)
 \end{verbatim}
 
 \subsection{Time Complexity / Experimental Results}
