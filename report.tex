@@ -8,6 +8,8 @@
 
 \maketitle
 
+\section{Introduction}
+
 \section{Algorithm Explanation}
 
 \subsection{Pseudocode}
@@ -29,14 +31,22 @@ Let U be a subset of P where each element in U is above C
 Let L be a subset of P where each element in L is below C
 Let CH <- {C.a} + TrianglePartition(P, C.a, C.b) + 
    {C.b} + TrianglePartition(P, C.b, C.a)
+Return CH
 \end{verbatim}
+
+\subsection{Pivot Chord Selection}
+The pivot chord selection in quickhull plays a major role in the efficiency of the algorithm, much like in its quicksort counterpart. For this project the chord was selected by finding the maximum and minimum values along the X axis.
+
+\section{Implementation}
+
+\subsection{Verification}
 
 \subsection{Time Complexity / Experimental Results}
 
-\subsection{Pivot Selection}
+\section{Other Convex Hull Algorithms}
 
-\subsection{Other Algorithms}
+\section{Summary}
 
-\subsection{Citations}
+\section{Citations}
 
 \end{document}
