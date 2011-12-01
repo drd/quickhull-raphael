@@ -16,7 +16,7 @@ In mathematics the convex hull of a set of points X is the minimum convex set co
 
 The quickhull algorithm, given its name due to its similarity to the quicksort algorithm, is a fast method for determining the convex hull of a set of points.
 
-\subsection{Pseudocode}
+\subsection{Quickhull Pseudocode}
 
 \textbf{TrianglePartition(P, A, B):}
 \begin{verbatim}
@@ -43,8 +43,18 @@ Return CH
 The pivot chord selection in quickhull plays a major role in the efficiency of the algorithm, much like in its quicksort counterpart. For this project the chord was selected by finding the maximum and minimum values along the X axis. This could be easily modified to select a chord along the Y. More advanced chord selection techniques are beyond the scope of this project.
 
 \section{Implementation}
+Our quickhull algorithm was implemented using JavaScript. This language was chosen due to the ease with which results could be visually displayed using minimal HTML code. Aditionally, recent advancements in JavaScript interpreters allow for reasonably fast execution of the algorithm.
 
 \subsection{Verification}
+To verify the correctness of our quickhull implementation we developed a brute force convex hull algorithm and compared the outputs of these two algorithms. We compared the output of these two algorithms using 10,000 iterations of random point data with a uniform distribution. We also compared the algorithms using randomly generated cirular and linear points.
+
+\subsubsection{Brute Force Psuedocode}
+\begin{verbatim}
+Let CH be an empty set
+For each pair of points (A, B):
+   If all points in P are below the vector A..B then add A, B to CH
+Return CH
+\end{verbatim}
 
 \subsection{Time Complexity / Experimental Results}
 
