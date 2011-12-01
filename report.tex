@@ -73,12 +73,22 @@ In order to determine the efficiency of the algorithm as implemented, we used th
 
 The first two graphs show performance on point sets ranging from 200 to 2,000 points on linear and circular data, respectively, for both quickhull and the bruteforce method. By means of polynomial regression, we were able to ascertain that the brute force method grows at order $O(n^2)$. We were surprised by this because the algorithm we use is essentially a triply-nested loop, which should show order $O(n^3)$.
 
-\includegraphics[scale=0.3]{quickhull - raphael-cloud.png} 
-\includegraphics[scale=0.3]{quickhull - raphael-circle.png} 
+\begin{figure}
+	\caption{Quickhull vs. brute-force on pointcloud data}
+	\includegraphics[scale=0.3]{qh-v-bf-cloud.png} 
+\end{figure}
+
+\begin{figure}
+	\caption{Quickhull vs. brute-force on circular data}
+	\includegraphics[scale=0.3]{qh-v-bf-circle.png} 
+\end{figure}
 
 Because the quickhull algorithm was so much faster than the bruteforce, we created a chart with quickhull alone to illustrate its behavior:
 
-\includegraphics[scale=0.3]{quickhull - qh only.png} 
+\begin{figure}
+	\caption{Quickhull scaling on pointcloud data}
+	\includegraphics[scale=0.3]{qh-only.png} 
+\end{figure}
 
 Again, we were surprised because the chart shows linear, if not sub-linear, time results for the quickhull algorithm, when the algorithm itself s $O(n log n)$. In looking into the data, we did notice that each run took longer than its predecessors, especially when the number points grew to approach 1,000,000. Our belief is that some of this data skew is due to garbage collection, but we can offer no explanation for the fact that the algorithm times appear lower by an entire order of magnitude than they are.
 
