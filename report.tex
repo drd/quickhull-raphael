@@ -96,8 +96,8 @@ Because the quickhull algorithm was so much faster than the bruteforce, we creat
 Again, we were surprised because the chart shows linear, if not sub-linear, time results for the quickhull algorithm, when the algorithm itself s $O(n log n)$. In looking into the data, we did notice that each run took longer than its predecessors, especially when the number points grew to approach 1,000,000. Our belief is that some of this data skew is due to garbage collection, but we can offer no explanation for the fact that the algorithm times appear lower by an entire order of magnitude than they are.
 
 \subsection{Other Convex Hull Algorithms}
-Grahams scan is another popular convex hull algorithm which has a worst case running time of $O(nlog(n))$. This algorithm first performs a clockwise sorting of the points and then determines, in order, which points are on the convex hull.
-
+One popular, fast, quick hull algoritm is divide and conquer. This algorithm involves recursively dividing the points into two sets. When a base case is reached a convex hull of these subsets is calculated and then merged into neighboring point sets. As with most divide and conquer algorithms, this algorithm is easily parallelized to improve performance on modern multiprocessor systems.
+Grahams scan is one of the most popular fast convex hull algorithms, with a worst case running time of $O(nlog(n))$. This algorithm first performs a clockwise sorting of the points and then determines, in order, which points are on the convex hull. Like quickhull, this algorithm provides a substantial speed improvement over the brute force algorithm with the cost of added code complexity. Unlike quickhull or divide and conquer, this algorithm does not easily parallelize.
 \section{Summary}
 
 \nocite{Princeton:QH}
