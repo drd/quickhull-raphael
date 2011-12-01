@@ -3,6 +3,14 @@ var geometry = {
 		return p1[0] == p2[0] && p1[1] == p2[1];
 	},
 
+	points_lists_are_equal: function(list1, list2) {
+		_.all(list1, function(list1_point) {
+			return _.any(list2, function(list2_point) {
+				return points_are_equal(list1_point, list2_point);
+			}, { 'list1_point': list1_point });
+		}, { 'list2': list2 });
+	},
+
 	point_left_of: function(vect, cmp) {
 		p1 = vect[0]
 		p2 = vect[1]
@@ -41,6 +49,21 @@ var geometry = {
 		var c = p2[0] - p1[0];
 		var d = p2[1] - p1[1];
 		return Math.abs(a * d - c * b) / Math.sqrt(c * c + d * d);
+	},
+
+	gen_random_points: function(cnt, xmin, xmax, ymin, ymax) {
+		var points = [];
+		var i;
+
+		var xrange = xmax - xmin;
+		var yrange = ymax - ymin;
+		for(i = 0;i < cnt;++i) {
+			points.push([
+				(Math.random() * xrange) + xmin,
+				(Math.random() * yrange) + ymin
+			]);
+		}
+		return points;
 	}
 }
 
