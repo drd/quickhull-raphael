@@ -4,82 +4,19 @@
   <title>quickhull - raphael</title>
   <script src="jquery-1.7.min.js"></script>
   <script src="underscore-min.js"></script>
-  <script src="raphael-min.js"></script>
+  <script src="raphael-min.js"></script> 
+  <script src="highcharts.js"></script>
   <script src="geometry.js"></script>
   <script src="quickhull.js"></script>
+  <script src="brute_force.js"></script>
   <script src="quickhull-test.js"></script>
 </head>
 <body>
   <h1>quickhull - rapha&euml;l :: Testing</h1>
-    <button id="start_button">Start testin!</button>
-    <p id="test_log"></p>
+  <button id="start_button">Start testin!</button>
+  <p id="test_log"></p>
 
-  <script type="text/javascript">
-	var test_cnt = 1000;
-        var point_cnts = 100;
-	var xmin = -100;
-	var ymin = -100;
-	var xmax = 100;
-	var ymax = 100;
-        var xcen = 0;
-        var ycen = 0;
-
-        var tests = {
-        'Uniform Point Cloud': [
-        geometry.gen_random_points,
-        [xmin, xmax, ymin, ymax]
-        ],
-        'Circle (r=100)': [
-        geometry.gen_circle_points,
-        [xcen, ycen, 100]
-        ],
-        'Circle (r=Random(0,100))': [
-        geometry.gen_circle_points,
-        [xcen, ycen]
-        ],
-        'Line (slope=Random(-10000,10000))': [
-        geometry.gen_line_points,
-        []
-        ]
-        }
-        
-
-	function Test(point_cnt, point_function, point_args) {
-		function singleTest() {
-			var points = point_function.apply(this, [point_cnt].concat(point_args));
-			var qh = quickhull(points);
-			var bf = convex_hull_bruteforce(points);
-			return geometry.points_lists_are_equal(qh, bf);
-		}
-
-		var i;
-		for(i = 0;i < test_cnt;++i) {
-			if(!singleTest()) {
-				$("#test_log").append("Error!<br />");
-				return;
-			}
-		}
-
-		$("#test_log").append("done<br />");
-	}
-
-	function startTest() {
-		$("#test_log").html("");
-                _(tests).each(function(test, name) {
-                              $('#test_log').append('Starting ' + name + '..<br />');
-                              _([100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]).each(
-                              function(point_cnt) {
-                              $('#test_log').append('Using ' + point_cnt + ' points..<br />');
-                              console.log([point_cnt].concat(test));
-                              Test.apply(this, [point_cnt].concat(test));
-                              });
-                              $('#test_log').append('Done with ' + name + '..<br />');
-                              });
-	}
-
-	$("#start_button").click(function(event) {
-                              startTest();
-                              });
-  </script>
+  <div id="charts">
+  </div>
 </body>
 </html>
