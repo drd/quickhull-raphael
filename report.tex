@@ -6,12 +6,11 @@
 \date{December 1 2011}
 
 \begin{document}
-
 \maketitle
 
 \section{Introduction}
 
-In mathematics the convex hull of a set of points X is the minimum convex set containing X. In this paper we will describe an efficient method for computing the convex hull of a set. There are many practical applications of the problem of determining convex hulls which range from Image processing to static code analysis which make the discovery of efficient algorithms to compute convex hull a worthwhile subject.
+In mathematics the convex hull of a set of points X is the minimum convex set containing X. In this paper we will describe an efficient method for computing the convex hull of a set\cite{Wikipedia:QH}. There are many practical applications of the problem of determining convex hulls which range from Image processing to static code analysis which make the discovery of efficient algorithms to compute convex hull a worthwhile subject.
 
 \section{Algorithm Explanation}
 
@@ -62,12 +61,12 @@ Return CH
 \subsection{Complexity}
 The complexity of the quickhull algorithm can be derived by constructing a recurrence relation for the worst case of TrianglePartition (see quickhull psuedocode). This worst case exists when the triangle (ABC) used in TriangleParticion does not contain any points (other than A, B, C). In this case, only one point is eliminated from the set of possible points. Finding the farthest point (C) requires O(n) time. Thus, the recurrence relation is:
 \[ T(n) = T(n - 1) + T(n - 1) + O(n) \]
-After expansion this recurrence releation solves to $O(n^2)$ complexity.
+After expansion this recurrence releation solves to $O(n^2)$ complexity\cite{Kent:QH}.
 \\
 \\
 With an evenly spaced distribution we can expect the trangle ABC to encompass half of the points, which gives us the following recurrence relation
 \[ T(n) = T(n / 2) + T(n / 2) + O(n) \]
-Using the Master Theorem we can solve this recurrence relation as being $O(n log(n))$ complexity.
+Using the Master Theorem we can solve this recurrence relation as being $O(n log(n))$ complexity\cite{Kent:QH}.
 
 \subsection{Experimental Performance}
 In order to determine the efficiency of the algorithm as implemented, we used the JavaScript console.profile API to measure successive runs of quickhull on increasingly-large sets of points. As a basis point of comparison, we also measured the running time of the brute-force function.
@@ -80,6 +79,9 @@ Grahams scan is another popular convex hull algorithm which has a worst case run
 
 \section{Summary}
 
-\section{Citations}
+\nocite{Princeton:QH}
+
+\bibliographystyle{plain}
+\bibliography{report}
 
 \end{document}
