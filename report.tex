@@ -10,11 +10,11 @@
 
 \section{Introduction}
 
-In mathematics the convex hull of a set of points X is the minimum convex set containing X. There are many practical applications of the problem of determining convex hulls which range from Image processing to static code analysis.
+In mathematics the convex hull of a set of points X is the minimum convex set containing X. In this paper we will describe an efficient method for computing the convex hull of a set. There are many practical applications of the problem of determining convex hulls which range from Image processing to static code analysis which make the discovery of efficient algorithms to compute convex hull a worthwhile subject.
 
 \section{Algorithm Explanation}
 
-The quickhull algorithm, given its name due to its similarity to the quicksort algorithm, is a fast method for determining the convex hull of a set of points.
+The quickhull algorithm, given its name due to its similarity to the quicksort algorithm, is a fast method for determining the convex hull of a set of points. The algorithm has two phases. The first phase splits the set into an upper and lower portion using a chord between two points known to be on the convex hull (these two points are also added to the set of points on the hull). The next phase of the algorithm takes the chord and a set of points to one side of the chord. This phase recursiveley determines the farthest point from the chord, then adds this point to set set of convex hull points, and recursively computes the convex hull on the points outside the triangle formed by these three points. A more detailed description is provided in the Quickhull Psuedocode.
 
 \subsection{Quickhull Pseudocode}
 
