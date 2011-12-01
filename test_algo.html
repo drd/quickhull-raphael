@@ -16,21 +16,39 @@
 
   <script type="text/javascript">
 	var test_cnt = 1000;
+        var point_cnts = 100;
 	var xmin = -100;
 	var ymin = -100;
 	var xmax = 100;
 	var ymax = 100;
+        var xcen = 0;
+        var ycen = 0;
 
-	function randomPointTest() {
-		var point_cnt = 100;
-		$("#test_log").append("Random point cloud test....");
+        var tests = {
+        'Uniform Point Cloud': [
+        geometry.gen_random_points,
+        [xmin, xmax, ymin, ymax]
+        ],
+        'Circle (r=100)': [
+        geometry.gen_circle_points,
+        [xcen, ycen, 100]
+        ],
+        'Circle (r=Random(0,100))': [
+        geometry.gen_circle_points,
+        [xcen, ycen]
+        ],
+        'Line (slope=Random(-10000,10000))': [
+        geometry.gen_line_points,
+        []
+        ]
+        }
+        
 
+	function Test(point_cnt, point_function, point_args) {
 		function singleTest() {
-			var points = geometry.gen_random_points(100, xmin, xmax, ymin, ymax);
+			var points = point_function.apply(this, [point_cnt].concat(point_args));
 			var qh = quickhull(points);
 			var bf = convex_hull_bruteforce(points);
-			console.log(points);
-			console.log("");
 			return geometry.points_lists_are_equal(qh, bf);
 		}
 
@@ -47,10 +65,21 @@
 
 	function startTest() {
 		$("#test_log").html("");
-		randomPointTest();
+                _(tests).each(function(test, name) {
+                              $('#test_log').append('Starting ' + name + '..<br />');
+                              _([100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]).each(
+                              function(point_cnt) {
+                              $('#test_log').append('Using ' + point_cnt + ' points..<br />');
+                              console.log([point_cnt].concat(test));
+                              Test.apply(this, [point_cnt].concat(test));
+                              });
+                              $('#test_log').append('Done with ' + name + '..<br />');
+                              });
 	}
 
-	$("#start_button").click(function(event) { startTest(); });
+	$("#start_button").click(function(event) {
+                              startTest();
+                              });
   </script>
 </body>
 </html>

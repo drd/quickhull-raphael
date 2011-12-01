@@ -9,11 +9,11 @@ var geometry = {
 		return _.all(list1, function(list1_point) {
 			var ret =_.any(list2, function(list2_point) {
 				return geometry.points_are_equal(list1_point, list2_point);
-			}, { 'list1_point': list1_point });
+			});
 			if(!ret)
-				console.log('Point not in list2', list1_point);
+			    console.log('Point not in list2', list1_point, subset, superset);
 			return ret;
-		}, { 'list2': list2 });
+		});
 		console.log('');
 	},
 
@@ -74,6 +74,46 @@ var geometry = {
 			]);
 		}
 		return points;
-	}
+	},
+
+    gen_circle_points: function(cnt, xcen, ycen, radius) {
+        var points = [];
+        
+        if (!radius) {
+            radius = Math.random() * 100;
+        }
+
+        while(points.length < cnt) {
+            var theta = Math.random() * 2 * Math.PI;
+            points.push([
+                xcen + Math.cos(theta) * radius,
+                ycen + Math.sin(theta) * radius
+            ]);
+        }
+
+        return points;
+    },
+
+    gen_line_points: function(cnt, m, b) {
+        var points = [];
+
+        if (!m) {
+            m = Math.random() * 20000 - 10000;
+        }
+
+        if (!b) {
+            b = 0;
+        }
+
+        while(points.length < cnt) {
+            var x = Math.random() * 200 - 100;
+            points.push([
+                x,
+                m * x + b
+            ]);
+        }
+
+        return points;
+    }
 }
 

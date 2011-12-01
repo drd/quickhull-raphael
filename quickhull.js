@@ -34,8 +34,8 @@ function quickhull(points_list, chord_finder, ex, undefined) {
 	var farthest = _.max(points, function(point) {
 	    return geometry.dist_point_from_line(point, p, q);
 	}, {'p': p, 'q': q});
-	if(geometry.dist_point_from_line(farthest, p, q) <= 0)
-	    alert('Invalid point');
+	// if(geometry.dist_point_from_line(farthest, p, q) <= 0)
+	//     alert('Invalid point');
 
 	if(geometry.points_are_equal(p, farthest) || geometry.points_are_equal(q, farthest))
 	    return;
