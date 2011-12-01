@@ -7,14 +7,14 @@ var xcen = 0;
 var ycen = 0;
 
 var tests = {
-    'Circle (r=Random(0,100))': [
-        geometry.gen_circle_points,
-        [xcen, ycen]
-    ]};
-    // 'Uniform Point Cloud': [
-    //     geometry.gen_random_points,
-    //     [xmin, xmax, ymin, ymax]
-    // ]}; var tests2={
+    // 'Circle (r=Random(0,100))': [
+    //     geometry.gen_circle_points,
+    //     [xcen, ycen]
+    // ]};
+    'Uniform Point Cloud': [
+        geometry.gen_random_points,
+        [xmin, xmax, ymin, ymax]
+    ]
     //     'Circle (r=100)': [
     //         geometry.gen_circle_points,
     //         [xcen, ycen, 100]
@@ -28,7 +28,7 @@ var tests = {
     //         []
     //     ]
     // }
-
+};
 
 function Test(point_cnt, point_function, point_args) {
     function singleTest() {
@@ -36,10 +36,10 @@ function Test(point_cnt, point_function, point_args) {
         console.profile('quickhull:' + point_cnt);
 	var qh = quickhull(points);
         console.profileEnd();
-        console.profile('bruteforce:' + point_cnt);
-	var bf = convex_hull_bruteforce(points);
-        console.profileEnd();
-	return geometry.points_lists_are_equal(qh, bf);
+        // console.profile('bruteforce:' + point_cnt);
+	// var bf = convex_hull_bruteforce(points);
+        // console.profileEnd();
+	return true; //geometry.points_lists_are_equal(qh, bf);
     }
 
     var i;
@@ -57,7 +57,7 @@ function startTest() {
     $("#test_log").html("");
     _(tests).each(function(test, name) {
         $('#test_log').append('Starting ' + name + '..<br />');
-        _(_.range(200, 2200, 200)).each(
+        _(_.range(30000, 100000, 10000)).each(
             function(point_cnt) {
                 $('#test_log').append('Using ' + point_cnt + ' points..<br />');
                 Test.apply(this, [point_cnt].concat(test));
@@ -77,17 +77,24 @@ $(function() {
                     a[alg][pts].concat(p.head.totalTime) : 
                     [p.head.totalTime];
                 return a; 
-            }, {'quickhull': {}, 'bruteforce': {}}
+            }, {'quickhull': {}} // , 'bruteforce': {}}
         );
         console.log(runTimes);
         results = _(runTimes).map(function(pts, alg) {
             return {
-                name: alg,
+                name: alg + ' median',
                 data: _(pts).map(function(times) {
                     return times.sort()[Math.round(times.length/2)];
                 })
             };
-        });
+        }).concat(_(runTimes).map(function(pts, alg) {
+            return {
+                name: alg + ' avg',
+                data: _(pts).map(function(times) {
+                    return times.reduce(function(s, t) { return s + t; }) / times.length;
+                })
+            };
+        }));
         chart = new Highcharts.Chart({
 	    chart: {
 		renderTo: 'charts',
