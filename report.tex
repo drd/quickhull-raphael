@@ -64,15 +64,23 @@ The complexity of the quickhull algorithm can be derived by constructing a recur
 After expansion this recurrence releation solves to $O(n^2)$ complexity\cite{Kent:QH}.
 \\
 \\
-With an evenly spaced distribution we can expect the trangle ABC to encompass half of the points, which gives us the following recurrence relation
+With an evenly spaced distribution we can expect the triangle ABC to encompass half of the points, which gives us the following recurrence relation
 \[ T(n) = T(n / 2) + T(n / 2) + O(n) \]
 Using the Master Theorem we can solve this recurrence relation as being $O(n log(n))$ complexity\cite{Kent:QH}.
 
 \subsection{Experimental Performance}
 In order to determine the efficiency of the algorithm as implemented, we used the JavaScript console.profile API to measure successive runs of quickhull on increasingly-large sets of points. As a basis point of comparison, we also measured the running time of the brute-force function.
 
+The first two graphs show performance on point sets ranging from 200 to 2,000 points on linear and circular data, respectively, for both quickhull and the bruteforce method. By means of polynomial regression, we were able to ascertain that the brute force method grows at order $O(n^2)$. We were surprised by this because the algorithm we use is essentially a triply-nested loop, which should show order $O(n^3)$.
+
 \includegraphics[scale=0.3]{quickhull - raphael-cloud.png} 
 \includegraphics[scale=0.3]{quickhull - raphael-circle.png} 
+
+Because the quickhull algorithm was so much faster than the bruteforce, we created a chart with quickhull alone to illustrate its behavior:
+
+\includegraphics[scale=0.3]{quickhull - qh only.png} 
+
+Again, we were surprised because the chart shows linear, if not sub-linear, time results for the quickhull algorithm, when the algorithm itself s $O(n log n)$. In looking into the data, we did notice that each run took longer than its predecessors, especially when the number points grew to approach 1,000,000. Our belief is that some of this data skew is due to garbage collection, but we can offer no explanation for the fact that the algorithm times appear lower by an entire order of magnitude than they are.
 
 \subsection{Other Convex Hull Algorithms}
 Grahams scan is another popular convex hull algorithm which has a worst case running time of $O(nlog(n))$. This algorithm first performs a clockwise sorting of the points and then determines, in order, which points are on the convex hull.
