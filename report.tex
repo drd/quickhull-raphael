@@ -41,13 +41,13 @@ Return CH
 \end{verbatim}
 
 \subsection{Pivot Chord Selection}
-The pivot chord selection in quickhull plays a major role in the efficiency of the algorithm, much like in its quicksort counterpart. For this project the chord was selected by finding the maximum and minimum values along the X axis. This could be easily modified to select a chord along the Y. More advanced chord selection techniques are beyond the scope of this project.
+The pivot chord selection in quickhull plays a major role in the efficiency of the algorithm, much like pivot selection in its quicksort counterpart. For this project the chord was selected by finding the maximum and minimum values along the X axis and then using the maximum and minumum Y values in cases of matching X values. This could be easily modified to select a chord along the Y axis. More advanced chord selection techniques are beyond the scope of this project.
 
 \section{Implementation}
-Our quickhull algorithm was implemented using JavaScript. This language was chosen due to the ease with which results could be visually displayed using minimal HTML code. Aditionally, recent advancements in JavaScript interpreters allow for reasonably fast execution of the algorithm.
+Our quickhull algorithm was implemented using JavaScript. This language was chosen due to the ease with which results could be visually displayed using minimal HTML code. Aditionally, recent advancements in JavaScript interpreters allow for reasonably fast execution of the algorithm. Furthermore, extensivh profiling software exists in most modern web browsers which allow us to easily generate run time performance data.
 
 \subsection{Verification}
-To verify the correctness of our quickhull implementation we developed a brute force convex hull algorithm and compared the outputs of these two algorithms. We compared the output of these two algorithms using 10,000 iterations of random point data with a uniform distribution. We also compared the algorithms using random points on circles and lines.
+To verify the correctness of our quickhull implementation we developed a brute force convex hull algorithm and compared the outputs of these two algorithms.
 
 \subsubsection{Brute Force Psuedocode}
 \begin{verbatim}
@@ -60,7 +60,7 @@ Return CH
 \section{Analysis}
 
 \subsection{Complexity}
-The quickhull algorithm has a worst case running time of $O(n^2)$. This can be seen by constructing a recurrence relation for the worst case of TrianglePartition (see quickhull psuedocode). The worst case is when the triangle ABC does not contain any points (other than A, B, C). In this case, only one point is eliminated from the set of possible points. Additionally finding C requires O(n) time, thus the recurrence relation is:
+The complexity of the quickhull algorithm can be derived by constructing a recurrence relation for the worst case of TrianglePartition (see quickhull psuedocode). This worst case exists when the triangle (ABC) used in TriangleParticion does not contain any points (other than A, B, C). In this case, only one point is eliminated from the set of possible points. Finding the farthest point (C) requires O(n) time. Thus, the recurrence relation is:
 \[ T(n) = T(n - 1) + T(n - 1) + O(n) \]
 After expansion this recurrence releation solves to $O(n^2)$ complexity.
 \\
