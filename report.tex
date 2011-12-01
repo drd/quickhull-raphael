@@ -1,0 +1,57 @@
+\documentclass[11pt]{article} 
+
+\title{CS350 QuickHull Project Report}
+\author{Gregory Haynes and Eric O'Connell}
+\date{December 1 2011}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+In mathematics the convex hull of a set of points X is the minimum convex set containing X. There are many practical applications of the problem of determining convex hulls which range from Image processing to static code analysis.
+
+\section{Algorithm Explanation}
+
+The quickhull algorithm, given its name due to its similarity to the quicksort algorithm, is a fast method for determining the convex hull of a set of points.
+
+\subsection{Pseudocode}
+
+\textbf{TrianglePartition(P, A, B):}
+\begin{verbatim}
+If P is the empty set return the empty set
+Let C be the farthest point from the line containing A and B
+Let L be a subset of P where each element is left of the line A..C
+Let R be a subset of P where each element is left of the line C..B
+Let CH <- TrianglePartition(L, A, C) + {CH}
+   + TrianglePartition(R, C, B)
+Return CH
+\end{verbatim}
+\textbf{Quickhull(P):}
+\begin{verbatim}
+Let C be a chord from point C.a to C.b where 
+   both C.a and C.b are points on the convex hull of P
+Let U be a subset of P where each element in U is above C
+Let L be a subset of P where each element in L is below C
+Let CH <- {C.a} + TrianglePartition(P, C.a, C.b) + 
+   {C.b} + TrianglePartition(P, C.b, C.a)
+Return CH
+\end{verbatim}
+
+\subsection{Pivot Chord Selection}
+The pivot chord selection in quickhull plays a major role in the efficiency of the algorithm, much like in its quicksort counterpart. For this project the chord was selected by finding the maximum and minimum values along the X axis. This could be easily modified to select a chord along the Y. More advanced chord selection techniques are beyond the scope of this project.
+
+\section{Implementation}
+
+\subsection{Verification}
+
+\subsection{Time Complexity / Experimental Results}
+
+\section{Other Convex Hull Algorithms}
+
+\section{Summary}
+
+\section{Citations}
+
+\end{document}
