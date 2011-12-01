@@ -62,6 +62,11 @@ Return CH
 The quickhull algorithm has a worst case running time of $O(n^2)$. This can be seen by constructing a recurrence relation for the worst case of TrianglePartition (see quickhull psuedocode). The worst case is when the triangle ABC does not contain any points (other than A, B, C). In this case, only one point is eliminated from the set of possible points. Additionally finding C requires O(n) time, thus the recurrence relation is:
 \[ T(n) = T(n - 1) + T(n - 1) + O(n) \]
 After expansion this recurrence releation solves to $O(n^2)$ complexity.
+\\
+\\
+With an evenly spaced distribution we can expect the trangle ABC to emcompass half of the points, which gives us the following recurrence relation
+\[ T(n) = T(n / 2) + T(n / 2) + O(n) \]
+Using the Master Theorem we can solve this recurrence relation as being $O(n log(n))$ complexity.
 
 \subsection{Other Convex Hull Algorithms}
 
