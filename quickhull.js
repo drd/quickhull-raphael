@@ -18,9 +18,15 @@ function quickhull(points_list, chord_finder, ex, undefined) {
     function left_right_chord(points_list) {
 	var min = points_list[0];
 	var max = points_list[0];
+
 	_.each(points_list, function(elem) {
-	    if(max[0] <= elem[0]) max = elem;
-	    if(min[0] >= elem[0]) min = elem;
+		if(min[0] == elem[0]) {
+			if(min[1] < elem[1]) max = elem;
+			if(min[1] > elem[1]) min = elem;
+		} else {
+			if(max[0] < elem[0]) max = elem;
+			if(min[0] > elem[0]) min = elem;
+		}
 	});
 	return [min, max];
     }
