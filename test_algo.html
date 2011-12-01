@@ -9,9 +9,10 @@
   <script src="quickhull.js"></script>
   <script src="quickhull-test.js"></script>
 </head>
-<body onload="startTest()">
+<body>
   <h1>quickhull - rapha&euml;l :: Testing</h1>
-    <p id="test_log">Loading...</p>
+    <button id="start_button">Start testin!</button>
+    <p id="test_log"></p>
 
   <script type="text/javascript">
 	var test_cnt = 1000;
@@ -48,6 +49,8 @@
 		$("#test_log").html("");
 		randomPointTest();
 	}
+
+	$("#start_button").click(function(event) { startTest(); });
   </script>
 </body>
 </html>
