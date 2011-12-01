@@ -9,12 +9,12 @@
   <script src="quickhull.js"></script>
   <script src="quickhull-test.js"></script>
 </head>
-<body>
+<body onload="startTest()">
   <h1>quickhull - rapha&euml;l :: Testing</h1>
     <p id="test_log">Loading...</p>
 
   <script type="text/javascript">
-	var test_cnt = 100;
+	var test_cnt = 1000;
 	var xmin = -100;
 	var ymin = -100;
 	var xmax = 100;
@@ -25,9 +25,11 @@
 		$("#test_log").append("Random point cloud test....");
 
 		function singleTest() {
-			var points = geometry.gen_random_points(100);
+			var points = geometry.gen_random_points(100, xmin, xmax, ymin, ymax);
 			var qh = quickhull(points);
 			var bf = convex_hull_bruteforce(points);
+			console.log(points);
+			console.log("");
 			return geometry.points_lists_are_equal(qh, bf);
 		}
 
@@ -46,8 +48,6 @@
 		$("#test_log").html("");
 		randomPointTest();
 	}
-
-	startTest();
   </script>
 </body>
 </html>

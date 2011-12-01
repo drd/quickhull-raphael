@@ -10,7 +10,7 @@ function convex_hull_bruteforce(points_list) {
 		_.each(points_list, function(q) {
 			if(geometry.points_are_equal(p, q)) return;
 			if(geometry.vector_on_hull(points_list, p, q)) {
-				hull_list.push([p, q]);
+				hull_list.push(p);
 			}
 		});
 	});

@@ -3,12 +3,22 @@ var geometry = {
 		return p1[0] == p2[0] && p1[1] == p2[1];
 	},
 
-	points_lists_are_equal: function(list1, list2) {
-		_.all(list1, function(list1_point) {
-			return _.any(list2, function(list2_point) {
-				return points_are_equal(list1_point, list2_point);
+	points_list_is_subset: function(subset, superset) {
+		var list1 = subset;
+		var list2 = superset;
+		return _.all(list1, function(list1_point) {
+			var ret =_.any(list2, function(list2_point) {
+				return geometry.points_are_equal(list1_point, list2_point);
 			}, { 'list1_point': list1_point });
+			if(!ret)
+				console.log('Point not in list2', list1_point);
+			return ret;
 		}, { 'list2': list2 });
+		console.log('');
+	},
+
+	points_lists_are_equal: function(list1, list2) {
+		return geometry.points_list_is_subset(list1, list2) && geometry.points_list_is_subset(list2, list1);
 	},
 
 	point_left_of: function(vect, cmp) {
