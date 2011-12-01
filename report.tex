@@ -1,5 +1,6 @@
 \documentclass[11pt]{article} 
-
+\usepackage[pdftex]{graphicx}
+ 
 \title{CS350 QuickHull Project Report}
 \author{Gregory Haynes and Eric O'Connell}
 \date{December 1 2011}
@@ -64,9 +65,15 @@ The quickhull algorithm has a worst case running time of $O(n^2)$. This can be s
 After expansion this recurrence releation solves to $O(n^2)$ complexity.
 \\
 \\
-With an evenly spaced distribution we can expect the trangle ABC to emcompass half of the points, which gives us the following recurrence relation
+With an evenly spaced distribution we can expect the trangle ABC to encompass half of the points, which gives us the following recurrence relation
 \[ T(n) = T(n / 2) + T(n / 2) + O(n) \]
 Using the Master Theorem we can solve this recurrence relation as being $O(n log(n))$ complexity.
+
+\subsection{Experimental Performance}
+In order to determine the efficiency of the algorithm as implemented, we used the JavaScript console.profile API to measure successive runs of quickhull on increasingly-large sets of points. As a basis point of comparison, we also measured the running time of the brute-force function.
+
+\includegraphics[scale=0.3]{quickhull - raphael-cloud.png} 
+\includegraphics[scale=0.3]{quickhull - raphael-circle.png} 
 
 \subsection{Other Convex Hull Algorithms}
 Grahams scan is another popular convex hull algorithm which has a worst case running time of $O(nlog(n))$. This algorithm first performs a clockwise sorting of the points and then determines, in order, which points are on the convex hull.
